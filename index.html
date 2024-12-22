@@ -1,52 +1,329 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Construction</title>
+    <title>Asia LiLi - Asiatisches Restaurant in Kassel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 4rem;
         }
-        
-        .floating {
-            animation: float 3s ease-in-out infinite;
+        .hero-pattern {
+            background-color: #ffffff;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f3f4f6' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
-        
-        .gradient-text {
-            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        @media (max-width: 640px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+        /* Image Gallery Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: 1rem;
+        }
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="max-w-2xl mx-auto text-center">
-        <div class="floating mb-8">
-            <svg class="w-32 h-32 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-            </svg>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-red-600">Asia LiLi</a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-red-600 transition duration-300">Startseite</a>
+                    <a href="#restaurant" class="text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
+                    <a href="#menu" class="text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
+                    <a href="#biergarten" class="text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
+                    <a href="#hours" class="text-gray-700 hover:text-red-600 transition duration-300">Öffnungszeiten</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button class="mobile-menu-button outline-none">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            Under Construction
-        </h1>
-        
-        <p class="text-gray-600 text-lg mb-8">
-            We're working hard to bring you something amazing. Please check back soon!
-        </p>
-        
 
-        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-white">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Startseite</a>
+                <a href="#restaurant" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
+                <a href="#menu" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
+                <a href="#biergarten" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
+                <a href="#hours" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Öffnungszeiten</a>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section id="home" class="hero-pattern pt-24">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-2 text-gray-800">Asia LiLi</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600">RESTAURANT MIT BIERGARTEN</p>
+            <div class="text-lg md:text-xl text-gray-700 space-y-2">
+                <p>Harleshäuser Straße 121a</p>
+                <p>34128 Kassel-Harleshausen</p>
+                <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6">Zeige Adresse auf Karte</a>)</p>
+                <p class="text-red-600 font-semibold mt-4"><a href="tel:05619885599">Tel: 0561 9885599</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Restaurant Section -->
+    <section id="restaurant" class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8">Unser Restaurant</h2>
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+                    <div>
+                        <img src="img/wp_20140903_018.jpg" alt="Restaurant Interior" class="rounded-lg shadow-lg w-full">
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-gray-600">Willkommen im Asia LiLi! Genießen Sie bei uns authentische asiatische Küche in gemütlicher Atmosphäre. Unser Restaurant bietet Platz für bis zu 60 Personen und ist der perfekte Ort für ein entspanntes Essen mit Familie und Freunden.</p>
+                        <p class="text-gray-600">Unsere erfahrenen Köche bereiten alle Gerichte frisch zu und verwenden dabei nur hochwertige Zutaten.</p>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-semibold text-center mb-6">Impressionen</h3>
+                <div class="carousel relative max-w-3xl mx-auto">
+                    <div class="carousel-container overflow-hidden relative rounded-lg">
+                        <div class="carousel-track flex transition-transform duration-300">
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/restaurantlili089.jpg" alt="Restaurant Eindruck 1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/restaurantlili090.jpg" alt="Restaurant Eindruck 2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/restaurantlili092.jpg" alt="Restaurant Eindruck 3" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/restaurantlili103.jpg" alt="Restaurant Eindruck 4" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        
+                        <button class="carousel-btn prev absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-r shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="carousel-btn next absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-l shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="carousel-indicators flex justify-center mt-4 space-x-2">
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn active" data-index="0"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="1"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="2"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="3"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8">Speisekarte</h2>
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="text-gray-600 mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten.</p>
+                <a href="speisekarte.pdf" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition duration-300 text-lg">Zur Speisekarte</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biergarten Section -->
+    <section id="biergarten" class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8">Unser Biergarten</h2>
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
+                    <div class="order-2 md:order-1">
+                        <p class="text-gray-600 mb-4">Genießen Sie die warmen Tage in unserem gemütlichen Biergarten. Unter schattigen Bäumen servieren wir Ihnen unsere asiatischen Spezialitäten und erfrischende Getränke.</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Platz für bis zu 40 Personen</li>
+                            <li>• Gemütliche Atmosphäre</li>
+                            <li>• Perfekt für warme Sommertage</li>
+                        </ul>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <img src="img/biergarten.jpg" alt="Biergarten" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-semibold text-center mb-6">Impressionen vom Biergarten</h3>
+                <div class="carousel relative max-w-3xl mx-auto">
+                    <div class="carousel-container overflow-hidden relative rounded-lg">
+                        <div class="carousel-track flex transition-transform duration-300">
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/2013-06-19_13_19_04.jpg" alt="Biergarten Eindruck 1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/imga0265.jpg" alt="Biergarten Eindruck 2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/imga0268.jpg" alt="Biergarten Eindruck 3" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        
+                        <button class="carousel-btn prev absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-r shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="carousel-btn next absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-l shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="carousel-indicators flex justify-center mt-4 space-x-2">
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn active" data-index="0"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="1"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="2"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="3"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Opening Hours Section -->
+    <section id="hours" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8">Öffnungszeiten</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg p-6 shadow-md">
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold">Mo, Do, Fr, Sa, So, an Feiertagen:</h3>
+                        <div class="ml-4 text-gray-600">
+                            <p>11.30 - 14.30 Uhr</p>
+                            <p>17.30 - 21.30 Uhr</p>
+                        </div>
+                    </div>
+                    <div class="text-red-600">
+                        <h3 class="font-semibold">Dienstag und Mittwoch:</h3>
+                        <p class="ml-4">geschlossen!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold">Asia LiLi</h3>
+                    <p class="text-gray-300">Authentische asiatische Küche</p>
+                    <!-- Social Media Links -->
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com/p/Restaurant-Asia-LiLi-100095601308377/?locale=de_DE" class="text-white hover:text-blue-500 transition duration-300">
+                            <i class="fab fa-facebook-f text-2xl"></i>
+                            <span class="sr-only">Facebook</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <p>Harleshäuser Straße 121a</p>
+                    <p>34128 Kassel-Harleshausen</p>
+                    <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6">Zeige Adresse auf Karte</a>)</p>
+                    <p class="text-red-400"><a href="tel:05619885599">0561 9885599</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div class="modal" id="imageModal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
 
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
 
+        // Close mobile menu when clicking a link
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Image Gallery Modal
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.modal-close');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+
+        galleryItems.forEach(img => {
+            img.addEventListener('click', () => {
+                modal.classList.add('active');
+                modalImg.src = img.src;
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>

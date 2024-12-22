@@ -225,7 +225,6 @@
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn active" data-index="0"></button>
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="1"></button>
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="2"></button>
-                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="3"></button>
                     </div>
                 </div>
             </div>
@@ -323,6 +322,73 @@
             if (e.target === modal) {
                 modal.classList.remove('active');
             }
+        });
+
+        // Carousel functionality
+        class Carousel {
+            constructor(element) {
+                this.carousel = element;
+                this.track = element.querySelector('.carousel-track');
+                this.slides = Array.from(element.querySelectorAll('.carousel-slide'));
+                this.nextButton = element.querySelector('.carousel-btn.next');
+                this.prevButton = element.querySelector('.carousel-btn.prev');
+                this.indicators = Array.from(element.querySelectorAll('.indicator-btn'));
+                this.currentSlide = 0;
+                this.slideCount = this.slides.length;
+                
+                this.init();
+            }
+
+            init() {
+                // Set initial position
+                this.updateSlidePosition();
+                this.updateIndicators();
+
+                // Add event listeners
+                this.nextButton.addEventListener('click', () => this.moveToSlide('next'));
+                this.prevButton.addEventListener('click', () => this.moveToSlide('prev'));
+                
+                // Add indicator click events
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        this.currentSlide = index;
+                        this.updateSlidePosition();
+                        this.updateIndicators();
+                    });
+                });
+            }
+
+            moveToSlide(direction) {
+                if (direction === 'next') {
+                    this.currentSlide = (this.currentSlide + 1) % this.slideCount;
+                } else {
+                    this.currentSlide = (this.currentSlide - 1 + this.slideCount) % this.slideCount;
+                }
+
+                this.updateSlidePosition();
+                this.updateIndicators();
+            }
+
+            updateSlidePosition() {
+                this.track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+            }
+
+            updateIndicators() {
+                this.indicators.forEach((indicator, index) => {
+                    if (index === this.currentSlide) {
+                        indicator.classList.add('bg-gray-800');
+                        indicator.classList.remove('bg-gray-300');
+                    } else {
+                        indicator.classList.remove('bg-gray-800');
+                        indicator.classList.add('bg-gray-300');
+                    }
+                });
+            }
+        }
+
+        // Initialize all carousels on the page
+        document.querySelectorAll('.carousel').forEach(carouselElement => {
+            new Carousel(carouselElement);
         });
     </script>
 </body>

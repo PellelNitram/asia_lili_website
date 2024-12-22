@@ -336,6 +336,15 @@
                 this.currentSlide = 0;
                 this.slideCount = this.slides.length;
                 
+                // Touch handling properties
+                this.touchStartX = 0;
+                this.touchEndX = 0;
+                this.minSwipeDistance = 50; // Minimum distance for a swipe
+                this.isDragging = false;
+                this.startPos = 0;
+                this.currentTranslate = 0;
+                this.prevTranslate = 0;
+                
                 this.init();
             }
 
@@ -356,6 +365,67 @@
                         this.updateIndicators();
                     });
                 });
+
+                // Touch event listeners
+                this.track.addEventListener('touchstart', (e) => this.touchStart(e));
+                this.track.addEventListener('touchmove', (e) => this.touchMove(e));
+                this.track.addEventListener('touchend', () => this.touchEnd());
+
+                // Prevent context menu on long press
+                this.track.addEventListener('contextmenu', e => {
+                    if (e.cancelable) e.preventDefault();
+                });
+            }
+
+            touchStart(event) {
+                this.isDragging = true;
+                this.startPos = event.touches[0].clientX;
+                this.touchStartX = event.touches[0].clientX;
+                
+                // Disable transition during drag
+                this.track.style.transition = 'none';
+            }
+
+            touchMove(event) {
+                if (!this.isDragging) return;
+                
+                const currentPosition = event.touches[0].clientX;
+                const diff = currentPosition - this.startPos;
+                
+                // Calculate new position
+                const translate = this.prevTranslate + diff;
+                
+                // Apply the movement
+                this.currentTranslate = translate;
+                this.track.style.transform = `translateX(${translate}px)`;
+                
+                // Prevent default scrolling
+                if (event.cancelable) event.preventDefault();
+            }
+
+            touchEnd() {
+                this.isDragging = false;
+                this.touchEndX = this.currentTranslate;
+                
+                // Re-enable transition
+                this.track.style.transition = 'transform 0.3s ease-out';
+                
+                // Calculate swipe distance
+                const swipeDistance = this.touchEndX - this.touchStartX;
+                
+                if (Math.abs(swipeDistance) > this.minSwipeDistance) {
+                    // Determine swipe direction
+                    if (swipeDistance > 0) {
+                        this.moveToSlide('prev');
+                    } else {
+                        this.moveToSlide('next');
+                    }
+                } else {
+                    // If swipe wasn't long enough, snap back to current slide
+                    this.updateSlidePosition();
+                }
+                
+                this.prevTranslate = this.currentTranslate;
             }
 
             moveToSlide(direction) {

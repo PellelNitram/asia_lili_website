@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asia LiLi - Asiatisches Restaurant in Kassel</title>
+    <title>Asia LiLi - Restaurant mit Biergarten in Kassel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -67,10 +67,10 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#home" class="text-gray-700 hover:text-red-600 transition duration-300">Startseite</a>
-                    <a href="#restaurant" class="text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
-                    <a href="#menu" class="text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
-                    <a href="#biergarten" class="text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
                     <a href="#hours" class="text-gray-700 hover:text-red-600 transition duration-300">Öffnungszeiten</a>
+                    <a href="#menu" class="text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
+                    <a href="#restaurant" class="text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
+                    <a href="#biergarten" class="text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -88,10 +88,10 @@
         <div class="mobile-menu md:hidden">
             <div class="px-2 pt-2 pb-3 space-y-1 bg-white">
                 <a href="#home" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Startseite</a>
-                <a href="#restaurant" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
-                <a href="#menu" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
-                <a href="#biergarten" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
                 <a href="#hours" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Öffnungszeiten</a>
+                <a href="#menu" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Speisekarte</a>
+                <a href="#restaurant" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Restaurant</a>
+                <a href="#biergarten" class="block px-3 py-2 text-gray-700 hover:text-red-600 transition duration-300">Biergarten</a>
             </div>
         </div>
     </nav>
@@ -99,33 +99,105 @@
     <!-- Hero Section -->
     <section id="home" class="hero-pattern pt-24">
         <div class="container mx-auto px-6 py-16 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-2 text-gray-800">Asia LiLi</h1>
+            <h1 class="text-8xl md:text-6xl font-bold mb-2 text-gray-800" style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Asia LiLi</h1>
             <p class="text-xl md:text-2xl mb-8 text-gray-600">RESTAURANT MIT BIERGARTEN</p>
             <div class="text-lg md:text-xl text-gray-700 space-y-2">
                 <p>Harleshäuser Straße 121a</p>
                 <p>34128 Kassel-Harleshausen</p>
-                <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6">Zeige Adresse auf Karte</a>)</p>
+                <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6"><u>Zeige Adresse auf Karte</u></a>)</p>
                 <p class="text-red-600 font-semibold mt-4"><a href="tel:05619885599">Tel: 0561 9885599</a></p>
             </div>
         </div>
     </section>
 
+    <!-- Opening Hours Section -->
+    <section id="hours" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-8">Öffnungszeiten</h2>
+            <div class="max-w-md mx-auto bg-white rounded-lg p-6 shadow-md">
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold">Mo, Do, Fr, Sa, So, an Feiertagen:</h3>
+                        <div class="ml-4 text-gray-600">
+                            <p>11.30 - 14.30 Uhr</p>
+                            <p>17.30 - 21.30 Uhr</p>
+                        </div>
+                    </div>
+                    <div class="text-red-600">
+                        <h3 class="font-semibold">Dienstag und Mittwoch:</h3>
+                        <p class="ml-4">geschlossen!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-8">Speisekarte</h2>
+            <div class="max-w-5xl mx-auto">
+                <p class="text-gray-600 text-center mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten. Wir bieten sowohl Speisen zum Mitnehmen (gerne auch mit telefonischer Vorbestellung) als auch Gerichte zum Verzehr vor Ort an. Vor Ort erwartet Sie eine größere Auswahl, darunter kleinere Portionen und süd-vietnamesische Spezialitäten.</p>
+                <p class="text-gray-600 text-center mb-8">Blättern Sie durch unsere Speisekarte:</p>
+                
+                <!-- PDF Viewer Container -->
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <!-- Viewer Controls -->
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-base text-gray-600">
+                            Speisekarte für Speisen zum Mitnehmen:
+                        </div>
+                        <div class="flex space-x-4">
+                            <button onclick="document.getElementById('menuViewer').focus()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                                Vollbild
+                            </button>
+                            <a href="speisekarte.pdf" download class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- PDF Viewer -->
+                    <div class="w-full rounded-lg overflow-hidden bg-gray-100" style="height: 800px;">
+                        <iframe 
+                            id="menuViewer"
+                            src="speisekarte.pdf"
+                            class="w-full h-full border-0"
+                            type="application/pdf"
+                        ></iframe>
+                    </div>
+                    
+                    <!-- Mobile Notice -->
+                    <div class="mt-4 text-sm text-gray-500 text-center">
+                        Hinweis: Wenn der Viewer auf Ihrem Gerät nicht funktioniert, können Sie die Speisekarte auch 
+                        <a href="speisekarte.pdf" class="text-red-600 hover:text-red-700 underline" download>
+                            direkt herunterladen
+                        </a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Restaurant Section -->
     <section id="restaurant" class="bg-white py-16">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-8">Unser Restaurant</h2>
+            <h2 class="text-4xl font-bold text-center mb-8">Unser Restaurant</h2>
             <div class="max-w-6xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
                     <div>
                         <img src="img/wp_20140903_018.jpg" alt="Restaurant Interior" class="rounded-lg shadow-lg w-full">
                     </div>
                     <div class="space-y-4">
-                        <p class="text-gray-600">Willkommen im Asia LiLi! Genießen Sie bei uns authentische asiatische Küche in gemütlicher Atmosphäre. Unser Restaurant bietet Platz für bis zu 60 Personen und ist der perfekte Ort für ein entspanntes Essen mit Familie und Freunden.</p>
-                        <p class="text-gray-600">Unsere erfahrenen Köche bereiten alle Gerichte frisch zu und verwenden dabei nur hochwertige Zutaten.</p>
+                        <p class="text-gray-600">Willkommen bei Asia LiLi! Genießen Sie bei uns authentische asiatische Küche in gemütlicher Atmosphäre. Unser Restaurant bietet Platz für bis zu 50 Personen und ist der perfekte Ort für ein entspanntes Essen mit Familie und Freunden.</p>
+                        <p class="text-gray-600">Alle Gerichte werden frisch vom erfahrenen Chefkoch zubereitet. Wir verwenden dabei ausschließlich hochwertige Zutaten und wenig Geschmacksverstärker. Schauen Sie nach dem * in der Speisekarte - das sind die Gerichte ganz ohne Geschmacksverstärker.</p>
                     </div>
                 </div>
                 
-                <h3 class="text-2xl font-semibold text-center mb-6">Impressionen</h3>
+                <h3 class="text-2xl font-semibold text-center mb-6">Impressionen vom Restaurant</h3>
                 <div class="carousel relative max-w-3xl mx-auto">
                     <div class="carousel-container overflow-hidden relative rounded-lg">
                         <div class="carousel-track flex transition-transform duration-300">
@@ -165,25 +237,14 @@
         </div>
     </section>
 
-    <!-- Menu Section -->
-    <section id="menu" class="bg-gray-50 py-16">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-8">Speisekarte</h2>
-            <div class="max-w-4xl mx-auto text-center">
-                <p class="text-gray-600 mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten.</p>
-                <a href="speisekarte.pdf" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition duration-300 text-lg">Zur Speisekarte</a>
-            </div>
-        </div>
-    </section>
-
     <!-- Biergarten Section -->
     <section id="biergarten" class="bg-white py-16">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-8">Unser Biergarten</h2>
+            <h2 class="text-4xl font-bold text-center mb-8">Unser Biergarten</h2>
             <div class="max-w-6xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
                     <div class="order-2 md:order-1">
-                        <p class="text-gray-600 mb-4">Genießen Sie die warmen Tage in unserem gemütlichen Biergarten. Unter schattigen Bäumen servieren wir Ihnen unsere asiatischen Spezialitäten und erfrischende Getränke.</p>
+                        <p class="text-gray-600 mb-4">Genießen Sie die warmen Tage in unserem idyllischen Biergarten, umgeben von einem Duft unserer schönen bunten Rosen. Lassen Sie sich von der entspannten Atmosphäre und der Blütenpracht verzaubern, während wir Ihnen unsere asiatischen Spezialitäten und erfrischende Getränke servieren./p>
                         <ul class="text-gray-600 space-y-2">
                             <li>• Platz für bis zu 40 Personen</li>
                             <li>• Gemütliche Atmosphäre</li>
@@ -230,36 +291,16 @@
             </div>
         </div>
     </section>
-
-    <!-- Opening Hours Section -->
-    <section id="hours" class="bg-gray-50 py-16">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-8">Öffnungszeiten</h2>
-            <div class="max-w-md mx-auto bg-white rounded-lg p-6 shadow-md">
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="font-semibold">Mo, Do, Fr, Sa, So, an Feiertagen:</h3>
-                        <div class="ml-4 text-gray-600">
-                            <p>11.30 - 14.30 Uhr</p>
-                            <p>17.30 - 21.30 Uhr</p>
-                        </div>
-                    </div>
-                    <div class="text-red-600">
-                        <h3 class="font-semibold">Dienstag und Mittwoch:</h3>
-                        <p class="ml-4">geschlossen!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
-                    <h3 class="text-xl font-bold">Asia LiLi</h3>
-                    <p class="text-gray-300">Authentische asiatische Küche</p>
+                    <h3 class="text-2xl font-bold" style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Asia LiLi</h3>
+                    <p class="text-gray-300 text-sm">Restaurant mit Biergarten</p>
+                    <p class="text-gray-300 text-sm">Inhaber: Thi Le</p>
+                    <p class="text-gray-300 text-sm">Umsatzsteuer-ID: 02685160631</p>
                     <!-- Social Media Links -->
                     <div class="flex space-x-4 mt-4">
                         <a href="https://www.facebook.com/p/Restaurant-Asia-LiLi-100095601308377/?locale=de_DE" class="text-white hover:text-blue-500 transition duration-300">
@@ -268,11 +309,11 @@
                         </a>
                     </div>
                 </div>
-                <div class="text-center md:text-right">
+                <div class="text-center md:text-right text-sm">
                     <p>Harleshäuser Straße 121a</p>
                     <p>34128 Kassel-Harleshausen</p>
-                    <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6">Zeige Adresse auf Karte</a>)</p>
-                    <p class="text-red-400"><a href="tel:05619885599">0561 9885599</a></p>
+                    <p>(<a href="https://maps.app.goo.gl/KcGsJrtpBGCijEUD6"><u>Zeige Adresse auf Karte</u></a>)</p>
+                    <p class="text-red-400"><a href="tel:05619885599">+49 (0)561 9885599</a></p>
                 </div>
             </div>
         </div>

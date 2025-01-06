@@ -134,13 +134,62 @@
         </div>
     </section>
     
-        <!-- Menu Section -->
+    <!-- Menu Section -->
     <section id="menu" class="bg-gray-50 py-16">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-8">Speisekarte</h2>
             <div class="max-w-4xl mx-auto text-center">
                 <p class="text-gray-600 mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten.</p>
                 <a href="speisekarte.pdf" target="_blank" rel="noopener noreferrer" class="inline-block bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition duration-300 text-lg">Zur Speisekarte</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8">Speisekarte</h2>
+            <div class="max-w-5xl mx-auto">
+                <p class="text-gray-600 text-center mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten.</p>
+                
+                <!-- PDF Viewer Container -->
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <!-- Viewer Controls -->
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-sm text-gray-600">
+                            Blättern Sie durch unsere Speisekarte:
+                        </div>
+                        <div class="flex space-x-4">
+                            <button onclick="document.getElementById('menuViewer').focus()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                                Vollbild
+                            </button>
+                            <a href="speisekarte.pdf" download class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300 flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                PDF herunterladen
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- PDF Viewer -->
+                    <div class="w-full rounded-lg overflow-hidden bg-gray-100" style="height: 800px;">
+                        <iframe 
+                            id="menuViewer"
+                            src="speisekarte.pdf"
+                            class="w-full h-full border-0"
+                            type="application/pdf"
+                        ></iframe>
+                    </div>
+                    
+                    <!-- Mobile Notice -->
+                    <div class="mt-4 text-sm text-gray-500 text-center">
+                        Hinweis: Wenn der Viewer auf Ihrem Gerät nicht funktioniert, können Sie die Speisekarte auch 
+                        <a href="speisekarte.pdf" class="text-red-600 hover:text-red-700 underline" download>
+                            direkt herunterladen
+                        </a>.
+                    </div>
+                </div>
             </div>
         </div>
     </section>

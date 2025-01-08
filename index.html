@@ -138,7 +138,19 @@
             <h2 class="text-4xl font-bold text-center mb-8">Speisekarte</h2>
             <div class="max-w-5xl mx-auto">
                 <p class="text-gray-600 text-center mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten. Wir bieten sowohl Speisen zum Mitnehmen (gerne auch mit telefonischer Vorbestellung) als auch Gerichte zum Verzehr vor Ort an. Vor Ort erwartet Sie eine größere Auswahl, darunter kleinere Portionen und süd-vietnamesische Spezialitäten.</p>
-                <p class="text-gray-600 text-center mb-8">Blättern Sie durch unsere Speisekarte:</p>
+
+                <!-- Section for news with pictures -->
+                <div class="max-w-3xl mx-auto mb-12">
+                    <div class="text-center mb-8">
+                        <p><b>*** NEU BEI UNS ***</b></p>
+                        <p class="text-gray-600">Unsere traditionell zubereitete Suppe Phở, nach original süd-vietnamesischem Rezept. Ausschließlich zum Verzehr vor Ort.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <img src="img/pho-2024.jpg" alt="Pho Suppe" class="rounded-lg shadow-lg w-1/2">
+                    </div>
+                </div>
+                
+                <p class="text-center mb-8"><b>Blättern Sie durch unsere Speisekarte:</b></p>
                 
                 <!-- PDF Viewer Container -->
                 <div class="bg-white p-4 rounded-lg shadow-lg">
@@ -148,7 +160,7 @@
                             Speisekarte für Speisen zum Mitnehmen:
                         </div>
                         <div class="flex space-x-4">
-                            <button onclick="document.getElementById('menuViewer').focus()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                            <button onclick="document.getElementById('menuViewer').requestFullscreen()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
                                 Vollbild
                             </button>
                             <a href="speisekarte.pdf" download class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300 flex items-center">
@@ -202,16 +214,16 @@
                     <div class="carousel-container overflow-hidden relative rounded-lg">
                         <div class="carousel-track flex transition-transform duration-300">
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/restaurantlili089.jpg" alt="Restaurant Eindruck 1" class="w-full h-full object-cover">
+                                <img src="img/restaurantlili089.jpg" alt="Restaurant Eindruck 04" class="w-full h-full object-cover">
                             </div>
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/restaurantlili090.jpg" alt="Restaurant Eindruck 2" class="w-full h-full object-cover">
+                                <img src="img/restaurantlili090.jpg" alt="Restaurant Eindruck 03" class="w-full h-full object-cover">
                             </div>
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/restaurantlili092.jpg" alt="Restaurant Eindruck 3" class="w-full h-full object-cover">
+                                <img src="img/restaurantlili092.jpg" alt="Restaurant Eindruck 02" class="w-full h-full object-cover">
                             </div>
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/restaurantlili103.jpg" alt="Restaurant Eindruck 4" class="w-full h-full object-cover">
+                                <img src="img/restaurantlili103.jpg" alt="Restaurant Eindruck 01" class="w-full h-full object-cover">
                             </div>
                         </div>
                         
@@ -244,7 +256,7 @@
             <div class="max-w-6xl mx-auto">
                 <div class="grid md:grid-cols-2 gap-8 items-start mb-12">
                     <div class="order-2 md:order-1">
-                        <p class="text-gray-600 mb-4">Genießen Sie die warmen Tage in unserem idyllischen Biergarten, umgeben von einem Duft unserer schönen bunten Rosen. Lassen Sie sich von der entspannten Atmosphäre und der Blütenpracht verzaubern, während wir Ihnen unsere asiatischen Spezialitäten und erfrischende Getränke servieren./p>
+                        <p class="text-gray-600 mb-4">Genießen Sie die warmen Tage in unserem idyllischen Biergarten, umgeben von einem Duft unserer schönen bunten Rosen. Lassen Sie sich von der entspannten Atmosphäre und der Blütenpracht verzaubern, während wir Ihnen unsere asiatischen Spezialitäten und erfrischende Getränke servieren.</p>
                         <ul class="text-gray-600 space-y-2">
                             <li>• Platz für bis zu 40 Personen</li>
                             <li>• Gemütliche Atmosphäre</li>
@@ -261,13 +273,16 @@
                     <div class="carousel-container overflow-hidden relative rounded-lg">
                         <div class="carousel-track flex transition-transform duration-300">
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/2013-06-19_13_19_04.jpg" alt="Biergarten Eindruck 1" class="w-full h-full object-cover">
+                                <img src="img/biergarten-2024.jpg" alt="Biergarten Eindruck 04" class="w-full h-full object-cover">
                             </div>
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/imga0265.jpg" alt="Biergarten Eindruck 2" class="w-full h-full object-cover">
+                                <img src="img/2013-06-19_13_19_04.jpg" alt="Biergarten Eindruck 03" class="w-full h-full object-cover">
                             </div>
                             <div class="carousel-slide w-full flex-shrink-0">
-                                <img src="img/imga0268.jpg" alt="Biergarten Eindruck 3" class="w-full h-full object-cover">
+                                <img src="img/imga0265.jpg" alt="Biergarten Eindruck 02" class="w-full h-full object-cover">
+                            </div>
+                            <div class="carousel-slide w-full flex-shrink-0">
+                                <img src="img/imga0268.jpg" alt="Biergarten Eindruck 01" class="w-full h-full object-cover">
                             </div>
                         </div>
                         
@@ -285,6 +300,7 @@
                     <div class="carousel-indicators flex justify-center mt-4 space-x-2">
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn active" data-index="0"></button>
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="1"></button>
+                        <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="2"></button>
                         <button class="w-2 h-2 rounded-full bg-gray-300 indicator-btn" data-index="2"></button>
                     </div>
                 </div>

@@ -138,7 +138,6 @@
             <h2 class="text-4xl font-bold text-center mb-8">Speisekarte</h2>
             <div class="max-w-5xl mx-auto">
                 <p class="text-gray-600 text-center mb-8">Entdecken Sie unsere vielfältige Auswahl an authentischen asiatischen Gerichten. Wir bieten sowohl Speisen zum Mitnehmen (gerne auch mit telefonischer Vorbestellung) als auch Gerichte zum Verzehr vor Ort an. Vor Ort erwartet Sie eine größere Auswahl, darunter kleinere Portionen und süd-vietnamesische Spezialitäten.</p>
-
                 <!-- Section for news with pictures -->
                 <div class="max-w-3xl mx-auto mb-12">
                     <div class="text-center mb-8">
@@ -155,12 +154,12 @@
                 <!-- PDF Viewer Container -->
                 <div class="bg-white p-4 rounded-lg shadow-lg">
                     <!-- Viewer Controls -->
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="text-base text-gray-600">
+                    <div class="flex flex-wrap justify-between items-center mb-4">
+                        <div class="text-base text-gray-600 mb-2 sm:mb-0">
                             Speisekarte für Speisen zum Mitnehmen:
                         </div>
-                        <div class="flex space-x-4">
-                            <button onclick="document.getElementById('menuViewer').requestFullscreen()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+                        <div class="flex flex-wrap gap-4">
+                            <button id="fullscreenButton" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
                                 Vollbild
                             </button>
                             <a href="speisekarte.pdf" download class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300 flex items-center">
@@ -172,19 +171,27 @@
                         </div>
                     </div>
                     
-                    <!-- PDF Viewer -->
-                    <div class="w-full rounded-lg overflow-hidden bg-gray-100" style="height: 800px;">
-                        <iframe 
-                            id="menuViewer"
-                            src="speisekarte.pdf"
-                            class="w-full h-full border-0"
-                            type="application/pdf"
-                        ></iframe>
+                    <!-- PDF.js Viewer -->
+                    <div id="viewerContainer" class="w-full rounded-lg overflow-hidden bg-gray-100" style="height: 800px;">
+                        <canvas id="pdfViewer" class="w-full h-full"></canvas>
                     </div>
                     
+                    <!-- Navigation Controls -->
+                    <div class="flex justify-center items-center space-x-4 mt-4">
+                        <button id="prev" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300">
+                            Vorherige
+                        </button>
+                        <span id="pageNum" class="text-gray-600"></span>
+                        <span class="text-gray-600"> / </span>
+                        <span id="pageCount" class="text-gray-600"></span>
+                        <button id="next" class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300">
+                            Nächste
+                        </button>
+                    </div>
+    
                     <!-- Mobile Notice -->
                     <div class="mt-4 text-sm text-gray-500 text-center">
-                        Hinweis: Wenn der Viewer auf Ihrem Gerät nicht funktioniert, können Sie die Speisekarte auch 
+                        Bei Problemen mit der Anzeige können Sie die Speisekarte auch 
                         <a href="speisekarte.pdf" class="text-red-600 hover:text-red-700 underline" download>
                             direkt herunterladen
                         </a>.
@@ -193,6 +200,111 @@
             </div>
         </div>
     </section>
+    
+    <!-- PDF.js Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+    // PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    // Viewer variables
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.5;
+    const canvas = document.getElementById('pdfViewer');
+    const ctx = canvas.getContext('2d');
+    
+    // Load the PDF
+    function loadPDF() {
+        pdfjsLib.getDocument('speisekarte.pdf').promise.then(function(pdf) {
+            pdfDoc = pdf;
+            document.getElementById('pageCount').textContent = pdf.numPages;
+            renderPage(pageNum);
+        }).catch(function(error) {
+            console.error('Error loading PDF:', error);
+        });
+    }
+    
+    // Render the page
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            const viewport = page.getViewport({scale: scale});
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+    
+            const renderTask = page.render(renderContext);
+    
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+    
+        document.getElementById('pageNum').textContent = num;
+    }
+    
+    // Previous page
+    function previousPage() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    }
+    
+    // Next page
+    function nextPage() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    }
+    
+    // Queue rendering of a page
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+    
+    // Button event listeners
+    document.getElementById('prev').addEventListener('click', previousPage);
+    document.getElementById('next').addEventListener('click', nextPage);
+    
+    // Fullscreen functionality
+    document.getElementById('fullscreenButton').addEventListener('click', function() {
+        const viewerContainer = document.getElementById('viewerContainer');
+        if (viewerContainer.requestFullscreen) {
+            viewerContainer.requestFullscreen();
+        } else if (viewerContainer.mozRequestFullScreen) {
+            viewerContainer.mozRequestFullScreen();
+        } else if (viewerContainer.webkitRequestFullscreen) {
+            viewerContainer.webkitRequestFullscreen();
+        } else if (viewerContainer.msRequestFullscreen) {
+            viewerContainer.msRequestFullscreen();
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (pdfDoc) {
+            renderPage(pageNum);
+        }
+    });
+    
+    // Initialize PDF viewer
+    loadPDF();
+    </script>
     
     <!-- Restaurant Section -->
     <section id="restaurant" class="bg-white py-16">

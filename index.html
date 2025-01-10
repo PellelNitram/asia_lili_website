@@ -204,106 +204,163 @@
     <!-- PDF.js Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
-    // PDF.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    
-    // Viewer variables
-    let pdfDoc = null;
-    let pageNum = 1;
-    let pageRendering = false;
-    let pageNumPending = null;
-    let scale = 1.5;
-    const canvas = document.getElementById('pdfViewer');
-    const ctx = canvas.getContext('2d');
-    
-    // Load the PDF
-    function loadPDF() {
-        pdfjsLib.getDocument('speisekarte.pdf').promise.then(function(pdf) {
-            pdfDoc = pdf;
-            document.getElementById('pageCount').textContent = pdf.numPages;
-            renderPage(pageNum);
-        }).catch(function(error) {
-            console.error('Error loading PDF:', error);
-        });
-    }
-    
-    // Render the page
-    function renderPage(num) {
-        pageRendering = true;
-        pdfDoc.getPage(num).then(function(page) {
-            const viewport = page.getViewport({scale: scale});
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+
+        // PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // Viewer variables
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        const canvas = document.getElementById('pdfViewer');
+        const ctx = canvas.getContext('2d');
+        
+        // Calculate optimal scale based on container width
+        function calculateOptimalScale(page, containerWidth) {
+            const viewport = page.getViewport({ scale: 1 });
+            return (containerWidth - 20) / viewport.width; // -20 for padding
+        }
+        
+        // Load the PDF
+        function loadPDF() {
+            const loadingTask = pdfjsLib.getDocument('speisekarte.pdf');
             
-            const renderContext = {
-                canvasContext: ctx,
-                viewport: viewport
-            };
-    
-            const renderTask = page.render(renderContext);
-    
-            renderTask.promise.then(function() {
-                pageRendering = false;
-                if (pageNumPending !== null) {
-                    renderPage(pageNumPending);
-                    pageNumPending = null;
-                }
+            loadingTask.promise
+                .then(function(pdf) {
+                    pdfDoc = pdf;
+                    document.getElementById('pageCount').textContent = pdf.numPages;
+                    renderPage(pageNum);
+                })
+                .catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    // Show error message to user
+                    const viewerContainer = document.getElementById('viewerContainer');
+                    viewerContainer.innerHTML = `
+                        <div class="text-red-600 p-4 text-center">
+                            Die PDF konnte nicht geladen werden. Bitte versuchen Sie, 
+                            <a href="speisekarte.pdf" class="underline" download>die PDF direkt herunterzuladen</a>.
+                        </div>
+                    `;
+                });
+        }
+        
+        // Render the page
+        function renderPage(num) {
+            pageRendering = true;
+            
+            // Show loading indicator
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#f3f4f6';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#4b5563';
+            ctx.font = '16px sans-serif';
+            ctx.fillText('Laden...', canvas.width/2 - 30, canvas.height/2);
+        
+            pdfDoc.getPage(num).then(function(page) {
+                const container = document.getElementById('viewerContainer');
+                const containerWidth = container.clientWidth;
+                scale = calculateOptimalScale(page, containerWidth);
+                
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                    enableWebGL: true
+                };
+        
+                const renderTask = page.render(renderContext);
+        
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                }).catch(function(error) {
+                    console.error('Error rendering PDF:', error);
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fillText('Fehler beim Rendern der Seite', canvas.width/2 - 80, canvas.height/2);
+                });
             });
+        
+            document.getElementById('pageNum').textContent = num;
+        }
+        
+        // Queue rendering of a page
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+        
+        // Previous page
+        function previousPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+        
+        // Next page
+        function nextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+        
+        // Handle window resize with debounce
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                if (pdfDoc) {
+                    renderPage(pageNum);
+                }
+            }, 250);
         });
+        
+        // Button event listeners
+        document.getElementById('prev').addEventListener('click', previousPage);
+        document.getElementById('next').addEventListener('click', nextPage);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                previousPage();
+            } else if (e.key === 'ArrowRight') {
+                nextPage();
+            }
+        });
+        
+        // Fullscreen functionality
+        document.getElementById('fullscreenButton').addEventListener('click', function() {
+            const viewerContainer = document.getElementById('viewerContainer');
+            if (!document.fullscreenElement) {
+                if (viewerContainer.requestFullscreen) {
+                    viewerContainer.requestFullscreen();
+                } else if (viewerContainer.mozRequestFullScreen) {
+                    viewerContainer.mozRequestFullScreen();
+                } else if (viewerContainer.webkitRequestFullscreen) {
+                    viewerContainer.webkitRequestFullscreen();
+                } else if (viewerContainer.msRequestFullscreen) {
+                    viewerContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+        
+        // Initialize PDF viewer
+        loadPDF();
     
-        document.getElementById('pageNum').textContent = num;
-    }
-    
-    // Previous page
-    function previousPage() {
-        if (pageNum <= 1) return;
-        pageNum--;
-        queueRenderPage(pageNum);
-    }
-    
-    // Next page
-    function nextPage() {
-        if (pageNum >= pdfDoc.numPages) return;
-        pageNum++;
-        queueRenderPage(pageNum);
-    }
-    
-    // Queue rendering of a page
-    function queueRenderPage(num) {
-        if (pageRendering) {
-            pageNumPending = num;
-        } else {
-            renderPage(num);
-        }
-    }
-    
-    // Button event listeners
-    document.getElementById('prev').addEventListener('click', previousPage);
-    document.getElementById('next').addEventListener('click', nextPage);
-    
-    // Fullscreen functionality
-    document.getElementById('fullscreenButton').addEventListener('click', function() {
-        const viewerContainer = document.getElementById('viewerContainer');
-        if (viewerContainer.requestFullscreen) {
-            viewerContainer.requestFullscreen();
-        } else if (viewerContainer.mozRequestFullScreen) {
-            viewerContainer.mozRequestFullScreen();
-        } else if (viewerContainer.webkitRequestFullscreen) {
-            viewerContainer.webkitRequestFullscreen();
-        } else if (viewerContainer.msRequestFullscreen) {
-            viewerContainer.msRequestFullscreen();
-        }
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (pdfDoc) {
-            renderPage(pageNum);
-        }
-    });
-    
-    // Initialize PDF viewer
-    loadPDF();
     </script>
     
     <!-- Restaurant Section -->

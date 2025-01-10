@@ -213,15 +213,9 @@
         let pageNum = 1;
         let pageRendering = false;
         let pageNumPending = null;
-        let scale = 1.5;
+        let scale = 1.0;  // Starting scale
         const canvas = document.getElementById('pdfViewer');
         const ctx = canvas.getContext('2d');
-        
-        // Calculate optimal scale based on container width
-        function calculateOptimalScale(page, containerWidth) {
-            const viewport = page.getViewport({ scale: 1 });
-            return (containerWidth - 20) / viewport.width; // -20 for padding
-        }
         
         // Load the PDF
         function loadPDF() {
@@ -235,7 +229,6 @@
                 })
                 .catch(function(error) {
                     console.error('Error loading PDF:', error);
-                    // Show error message to user
                     const viewerContainer = document.getElementById('viewerContainer');
                     viewerContainer.innerHTML = `
                         <div class="text-red-600 p-4 text-center">
@@ -261,15 +254,27 @@
             pdfDoc.getPage(num).then(function(page) {
                 const container = document.getElementById('viewerContainer');
                 const containerWidth = container.clientWidth;
-                scale = calculateOptimalScale(page, containerWidth);
                 
-                const viewport = page.getViewport({ scale: scale });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
+                // Get the original viewport
+                const viewport = page.getViewport({ scale: 1.0 });
+                
+                // Calculate scale to fit width while maintaining aspect ratio
+                scale = (containerWidth - 40) / viewport.width; // -40 for padding
+                
+                // Get new viewport with calculated scale
+                const newViewport = page.getViewport({ scale: scale });
+                
+                // Set canvas dimensions to match viewport
+                canvas.height = newViewport.height;
+                canvas.width = newViewport.width;
+                
+                // Make the container scrollable
+                container.style.overflowY = 'auto';
+                container.style.overflowX = 'hidden';
                 
                 const renderContext = {
                     canvasContext: ctx,
-                    viewport: viewport,
+                    viewport: newViewport,
                     enableWebGL: true
                 };
         

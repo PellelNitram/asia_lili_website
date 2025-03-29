@@ -206,18 +206,22 @@
     
     <style>
     #viewerContainer {
-        height: 800px;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        background-color: #f3f4f6;
-        padding: 20px;
+    height: 800px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #f3f4f6;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     }
-    
+
     #pdfViewer {
         display: block;
         margin: 0 auto;
         background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     </style>
 
@@ -256,67 +260,72 @@
             });
     }
     
-    // Render the page
-    function renderPage(num) {
-        pageRendering = true;
+// Render the page
+function renderPage(num) {
+    pageRendering = true;
+    
+    // Show loading indicator
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#f3f4f6';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#4b5563';
+    ctx.font = '16px sans-serif';
+    ctx.fillText('Laden...', canvas.width/2 - 30, canvas.height/2);
+
+    pdfDoc.getPage(num).then(function(page) {
+        const container = document.getElementById('viewerContainer');
+        const containerWidth = container.clientWidth - 40; // 40px padding
         
-        // Show loading indicator
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#f3f4f6';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#4b5563';
-        ctx.font = '16px sans-serif';
-        ctx.fillText('Laden...', canvas.width/2 - 30, canvas.height/2);
-    
-        pdfDoc.getPage(num).then(function(page) {
-            const container = document.getElementById('viewerContainer');
-            const containerWidth = container.clientWidth - 40; // 40px padding
-            
-            // Get the PDF page's original dimensions
-            const originalViewport = page.getViewport({ scale: 1.0 });
-            
-            // Calculate scale to fit container width
-            let scale = containerWidth / originalViewport.width;
-            
-            // Create new viewport with calculated scale
-            const viewport = page.getViewport({ scale: scale });
-            
-            // Set canvas size to match viewport
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            
-            // Center the canvas in the container
-            canvas.style.display = 'block';
-            canvas.style.margin = '0 auto';
-            
-            // Configure container for scrolling
-            container.style.overflowY = 'auto';
-            container.style.overflowX = 'hidden';
-            
-            const renderContext = {
-                canvasContext: ctx,
-                viewport: viewport,
-                enableWebGL: true
-            };
-    
-            const renderTask = page.render(renderContext);
-    
-            renderTask.promise.then(function() {
-                pageRendering = false;
-                if (pageNumPending !== null) {
-                    renderPage(pageNumPending);
-                    pageNumPending = null;
-                }
-            }).catch(function(error) {
-                console.error('Error rendering PDF:', error);
-                ctx.fillStyle = '#ef4444';
-                ctx.fillText('Fehler beim Rendern der Seite', canvas.width/2 - 80, canvas.height/2);
-            });
+        // Get the PDF page's original dimensions
+        const originalViewport = page.getViewport({ scale: 1.0 });
+        
+        // Calculate scale to fit container width
+        let scale = containerWidth / originalViewport.width;
+        
+        // Get device pixel ratio to handle high-DPI displays
+        const pixelRatio = window.devicePixelRatio || 1;
+        
+        // Create new viewport with calculated scale
+        const viewport = page.getViewport({ scale: scale });
+        
+        // Set canvas dimensions to match the viewport size
+        canvas.width = viewport.width * pixelRatio;
+        canvas.height = viewport.height * pixelRatio;
+        
+        // Set the display size of the canvas
+        canvas.style.width = viewport.width + 'px';
+        canvas.style.height = viewport.height + 'px';
+        
+        // Scale the context to adjust for the device pixel ratio
+        ctx.scale(pixelRatio, pixelRatio);
+        
+        // Center the canvas in the container
+        canvas.style.display = 'block';
+        canvas.style.margin = '0 auto';
+        
+        const renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+            enableWebGL: true
+        };
+
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(function() {
+            pageRendering = false;
+            if (pageNumPending !== null) {
+                renderPage(pageNumPending);
+                pageNumPending = null;
+            }
+        }).catch(function(error) {
+            console.error('Error rendering PDF:', error);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText('Fehler beim Rendern der Seite', canvas.width/2 - 80, canvas.height/2);
         });
-    
-        document.getElementById('pageNum').textContent = num;
-    }
-    
+    });
+
+    document.getElementById('pageNum').textContent = num;
+}    
     // Queue rendering of a page
     function queueRenderPage(num) {
         if (pageRendering) {
@@ -339,13 +348,15 @@
         pageNum++;
         queueRenderPage(pageNum);
     }
-    
+
     // Handle window resize with debounce
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
             if (pdfDoc) {
+                // Reset the canvas and context before re-rendering
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
                 renderPage(pageNum);
             }
         }, 250);

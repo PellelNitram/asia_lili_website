@@ -305,6 +305,24 @@
             }
         });
 
+        // Grüne Notification Box nur zwischen `start` und `end` anzeigen
+        document.addEventListener('DOMContentLoaded', function() {
+            const openNotificationBox = document.getElementById('open-notification-box');
+            const closeOpenNotification = document.getElementById('close-open-notification');
+            const now = new Date();
+            const start = new Date('2025-08-14T00:00:00');
+            // const end = new Date('2025-08-15T23:59:59'); // For debugging
+            const end = new Date('2025-09-30T23:59:59');
+            if (now >= start && now <= end) {
+                openNotificationBox.classList.remove('hidden');
+            }
+            if (closeOpenNotification && openNotificationBox) {
+                closeOpenNotification.addEventListener('click', function() {
+                    openNotificationBox.style.display = 'none';
+                });
+            }
+        });
+
     // Load the PDF
     function loadPDF() {
         const loadingTask = pdfjsLib.getDocument('speisekarte.pdf');

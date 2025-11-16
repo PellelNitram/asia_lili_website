@@ -182,8 +182,8 @@
                         <h3 class="font-semibold">Dienstag und Mittwoch:</h3>
                         <p class="ml-4">geschlossen!</p>
                     </div>
-                    <!-- ==== FEIERTAGS-ÖFFNUNGSZEITEN (leicht deaktivierbar) ==== -->
-                    <div class="mt-8 p-4 border border-red-300 rounded-lg bg-red-50">
+                    <!-- Feiertagsbox wird per JS gesteuert -->
+                    <div id="holiday-hours" class="hidden mt-8 p-4 border border-red-300 rounded-lg bg-red-50">
                         <h3 class="text-xl font-bold text-red-700 mb-2">Sonder-Öffnungszeiten an den Feiertagen</h3>
                         <ul class="text-gray-700 space-y-2">
                             <li>
@@ -219,7 +219,6 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- ==== ENDE FEIERTAGS-ÖFFNUNGSZEITEN ==== -->
                 </div>
             </div>
         </div>
@@ -850,5 +849,24 @@ function renderPage(num) {
     <!-- GoatCounter Analytics -->
     <script data-goatcounter="https://asialili.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        
+            // Zeitraum definieren, wann die Feiertagszeiten angezeigt werden sollen
+            const showFrom = new Date("2025-11-01");
+            const showUntil = new Date("2026-01-04");
+        
+            // Heute:
+            const today = new Date();
+        
+            // Div selektieren
+            const holidayBox = document.getElementById("holiday-hours");
+        
+            // Sichtbarkeit steuern
+            if (today >= showFrom && today <= showUntil) {
+                holidayBox.classList.remove("hidden");
+            }
+        });
+    </script>
 </body>
 </html>

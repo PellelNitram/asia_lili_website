@@ -97,8 +97,7 @@
     </nav>
 
     <!-- Notification Box -->
-    <!--
-    <div id="notification-box" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 fixed top-20 left-0 right-0 z-40 shadow-md mx-auto max-w-4xl">
+    <div id="vacation-notification" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 fixed top-20 left-0 right-0 z-40 shadow-md mx-auto max-w-4xl">
         <div class="flex items-start">
             <div class="flex-shrink-0">
                 <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -107,13 +106,13 @@
             </div>
             <div class="ml-3">
                 <p class="font-bold">Liebe Gäste,</p>
-                <p class="mt-1">aufgrund von Umbauarbeiten bleibt unser Restaurant voraussichtlich vom Dienstag, den 3. Juni 2025, bis Ende Juli 2025 geschlossen.</p>
-                <p class="mt-1">Wir freuen uns darauf, Sie bald wieder bei uns begrüßen zu dürfen.</p>
+                <p class="mt-1">wegen Urlaub haben wir von <strong>Di, 27.01.2026</strong> bis <strong>Mi, 04.03.2026</strong> geschlossen.</p>
+                <p class="mt-1">Wir freuen uns, Sie ab <strong>Do, 05.03.2026</strong> wieder begrüßen zu dürfen.</p>
                 <p class="mt-1">Ihr Restaurant Asia LiLi</p>
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button id="close-notification" class="inline-flex bg-red-100 text-red-500 rounded-md p-1.5 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <button id="close-vacation-notification" class="inline-flex bg-red-100 text-red-500 rounded-md p-1.5 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <span class="sr-only">Schließen</span>
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -123,7 +122,6 @@
             </div>
         </div>
     </div>
-    -->
 
     <!-- Grüne Notification Box: Wieder geöffnet -->
     <div id="open-notification-box" class="hidden bg-green-100 border-l-4 border-green-500 text-green-700 p-4 fixed top-20 left-0 right-0 z-40 shadow-md mx-auto max-w-4xl">
@@ -387,6 +385,25 @@
                 });
             }
         });
+
+    // Show the vacation/Urlaub notification only during the specified period
+    document.addEventListener('DOMContentLoaded', function() {
+        const vacationBox = document.getElementById('vacation-notification');
+        const closeBtn = document.getElementById('close-vacation-notification');
+        const now = new Date();
+        const start = new Date('2026-01-27T00:00:00');
+        const end = new Date('2026-03-04T23:59:59');
+
+        if (vacationBox && now >= start && now <= end) {
+            vacationBox.classList.remove('hidden');
+        }
+
+        if (closeBtn && vacationBox) {
+            closeBtn.addEventListener('click', function() {
+                vacationBox.style.display = 'none';
+            });
+        }
+    });
 
     // Load the PDF
     function loadPDF() {
